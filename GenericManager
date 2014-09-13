@@ -1,0 +1,20 @@
+function GenericManager(){
+
+	this.idCounter = 0;
+	this.id = null
+	
+};
+
+GenericManager.prototype.addtoRoster = function(rosterEntry) 
+{
+	this.roster.length = rosterLength
+	this.roster[rosterLength] = rosterEntry
+	this.idCounter++
+	return this.idCounter;
+};
+
+GenericManager.prototype.removeFromRoster = function(rosterEntry)
+{
+	var rosterEntryIndex = this.roster.indexOf(rosterEntry)
+	this.roster.splice(rosterEntryIndex, 1)
+};
