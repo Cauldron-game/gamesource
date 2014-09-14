@@ -7,10 +7,10 @@ var mainGame = (function () {
 						canvas: document.getElementById("mainCanvas")
 	});
 
-	/*(TurbulenzEngine.onerror = function gameErrorFn (msg)
+	TurbulenzEngine.onerror = function gameErrorFn (msg)
 	{
 		window.alert(msg)
-	}*/
+	}
 
 	var graphicsDevice = TurbulenzEngine.createGraphicsDevice({})
 
@@ -23,13 +23,13 @@ var mainGame = (function () {
 
 	var bgColor = [0, 0, 0, 1]
 
-	var gameManager = createGameManager()
+	var gameObjectManager = CreateGameObjectManager()
 
-	var characterManager = gameManager.roster[0]
-
+	var playerControllerManager = gameObjectManager.getFromRoster(0)
+	
 	var newPlayerController = new playerController()
 
-	var newPlayerId = characterManager.addToRoster(newPlayerController.activePlayerCharacter)
+	playerControllerManager.addToRoster(newPlayerController)
 
 	var redSquareSpriteTextureSrc = "assets/textures/redTexture.png"
 
@@ -39,12 +39,29 @@ var mainGame = (function () {
 
 	var tealSquareSprite = CreateGenericSprite(tealSquareSpriteTextureSrc)
 
-	redSquareSprite.id = newPlayerController.activePlayerCharacter.spriteManager.addToRoster(redSquareSprite)
+	var defaultAnimation = newPlayerController.activePlayerCharacter.defaultAnimation
 
-	tealSquareSprite.id = newPlayerController.activePlayerCharacter.spriteManager.addToRoster(tealSquareSprite)
+	newPlayerController.activePlayerCharacter.addSpriteToAnimation(redSquareSprite,0)
+	newPlayerController.activePlayerCharacter.addSpriteToAnimation(redSquareSprite,0)
+	newPlayerController.activePlayerCharacter.addSpriteToAnimation(redSquareSprite,0)
+	newPlayerController.activePlayerCharacter.addSpriteToAnimation(redSquareSprite,0)
+	newPlayerController.activePlayerCharacter.addSpriteToAnimation(redSquareSprite,0)
+	newPlayerController.activePlayerCharacter.addSpriteToAnimation(tealSquareSprite,0)
+	newPlayerController.activePlayerCharacter.addSpriteToAnimation(tealSquareSprite,0)
+	newPlayerController.activePlayerCharacter.addSpriteToAnimation(tealSquareSprite,0)
+	newPlayerController.activePlayerCharacter.addSpriteToAnimation(tealSquareSprite,0)
+	newPlayerController.activePlayerCharacter.addSpriteToAnimation(tealSquareSprite,0)
 
 
-	console.log(newPlayerController.activePlayerCharacter.activeSprite.texture)
+
+	//newPlayerController.activePlayerCharacter.animationManager.roster
+
+	//redSquareSprite.id = newPlayerController.activePlayerCharacter.spriteManager.addToRoster(redSquareSprite)
+
+	//tealSquareSprite.id = newPlayerController.activePlayerCharacter.spriteManager.addToRoster(tealSquareSprite)
+
+
+	//console.log(gameObjectManager.roster)
 	
 
 	function drawSpriteBatch(spriteBatch)
@@ -62,16 +79,17 @@ var mainGame = (function () {
 	function update()
 	{
 		inputDevice.update()
+		playerControllerManager.updateControllers()
 
-		var testArray = characterManager.getVisibleCharacters(characterManager.roster)
+		var SpritesToBeDrawn = gameObjectManager.getVisibleObjects()
+		//console.log(testArray)
 
 		if (graphicsDevice.beginFrame())
 		{
 			graphicsDevice.clear(bgColor, 1.0)
 			/* Render Code */
 			draw2d.begin()
-			drawSpriteBatch(testArray)
-			//draw2d.drawSprite(newPlayer.activeSprite)
+			drawSpriteBatch(SpritesToBeDrawn)
 			draw2d.end()
 
 			graphicsDevice.endFrame();
@@ -84,7 +102,6 @@ var mainGame = (function () {
 function CreateGenericSprite(pTextureSrc){
 
 	var genericTexture = null;
-	console.log(pTextureSrc)
 	if(pTextureSrc)
 	{
 		genericTexture = CreateGenericTexture(pTextureSrc)	

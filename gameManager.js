@@ -1,37 +1,61 @@
-function createGameManager()
+function CreateGameObjectManager()
 {
+	var gameObjectManager = new GenericManager();
 
-	var gameManager = new GenericManager();
+	var playerControllerManager = new GenericManager();
+	playerControllerManager.drawToScene = true
 
-	var characterManager = new GenericManager();
-
-	characterManager.getVisibleCharacters = function(characterArray)
+	playerControllerManager.updateControllers = function()
 	{
-		var charArrayLength = characterArray.length
-		var returnCharArray = new Array()
+		var playerControllerManagerLength = this.roster.length
 
-		var returnCharCounter = 0
-
-		for (iCharacter = 0; iCharacter < charArrayLength; iCharacter++ )
+		for(iController = 0; iController < playerControllerManagerLength; iController++)
 		{
-			var currentiCharacter = characterArray[iCharacter]
-			var currentCharacterVisible = currentiCharacter.visible
-
-			if (currentCharacterVisible == true)
-			{
-				var currentCharacterSprite = currentiCharacter.activeSprite
-				returnCharArray[returnCharCounter] = currentCharacterSprite;
-				returnCharCounter++;
-			}
-
+			var currentPlayerController = this.roster[iController]
+			currentPlayerController.update()
 		}
-		return returnCharArray
 	}
 
-	var currentGameManId = gameManager.addToRoster(characterManager);
+	var playerControllerManagerRef = 0
 
-	gameManager.roster[currentGameManId].id = currentGameManId
+	gameObjectManager.addToRoster(playerControllerManager, playerControllerManagerRef)
 
-	return gameManager;
+	gameObjectManager.getVisibleObjects = function()
+	{	
+		var returnVisibleObjectArray = new Array()
+		var returnVisibleObjectCounter = 0
+		if(this.roster)
+		{
+			var gmRosterLength = this.roster.length
+			for (iManager = 0; iManager < gmRosterLength; iManager++ )
+			{
+				// get playerControllerManager, computerControllerManager, sceneControllerManager
+				var currentManager = this.roster[iManager];
+				if(currentManager.drawToScene == true)
+				{
+					var currentManagerLength = currentManager.roster.length;
+					for(iController = 0; iController < currentManagerLength; iController++)
+					{
+						var currentController = currentManager.roster[iController]
+						if(currentController.activePlayerCharacter.visible == true)
+						{
+
+							var activePlayerCharacterSprite = currentController.activePlayerCharacter.activeSprite
+							//console.log("activePlayerCharacterSprite =", activePlayerCharacterSprite)
+							returnVisibleObjectArray[returnVisibleObjectCounter] = activePlayerCharacterSprite
+							returnVisibleObjectCounter++
+						}
+					}
+				}
+				
+
+			}
+		
+		}
+		
+		return returnVisibleObjectArray
+	}	
+
+	return gameObjectManager;
 
 }

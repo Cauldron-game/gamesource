@@ -3,24 +3,43 @@ function GenericManager(){
 	this.idCounter = 0;
 	this.id = 0;
 	this.roster = new Array()
+	this.drawToScene = true
 	
 };
 
-GenericManager.prototype.addToRoster = function(rosterEntry) 
+GenericManager.prototype.addToRoster = function(rosterEntry, pOptArryEntryIndex) 
 {
-	var rosterLength = this.roster.length
+	if(pOptArryEntryIndex)
+	{
+		this.roster[pOptArryEntryIndex] = rosterEntry
+	}
+	else
+	{
+		this.roster.push(rosterEntry)
+	}
+	var rosterId = this.roster.indexOf(rosterEntry)
 
-	this.roster[rosterLength] = rosterEntry;
+	return rosterId;
 
-	var realId = this.idCounter
-
-	this.idCounter++;
-
-	return realId;
+	
 };
 
 GenericManager.prototype.removeFromRoster = function(rosterEntry)
 {
 	var rosterEntryIndex = this.roster.indexOf(rosterEntry);
 	this.roster.splice(rosterEntryIndex, 1);
+	return rosterEntryIndex;
 }
+
+GenericManager.prototype.getFromRoster = function(rosterEntryIndex)
+{
+	var rosterEntry = this.roster[rosterEntryIndex]
+	return rosterEntry;
+}
+
+GenericManager.prototype.replaceInRoster = function(originRosterEntry, replacementEntry) 
+{
+	var originRosterEntryIndex = this.removeFromRoster(originRosterEntry)
+	this.addToRoster(replacementEntry, originRosterEntryIndex)
+	this.roster[originRosterEntryIndex].id = originRosterEntryIndex
+};

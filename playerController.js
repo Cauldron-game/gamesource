@@ -4,97 +4,29 @@ function playerController()
 	var defaultPlayerCharacter = new playerCharacter()
 	this.activePlayerCharacter = defaultPlayerCharacter
 
+	console.log(defaultPlayerCharacter)
+
 	var defaultDeviceProfile_mouse = this.createDeviceProfile()
-	this.setDeviceInput(defaultDeviceProfile_mouse, this.activePlayerCharacter)
+	this.setDeviceInput(defaultDeviceProfile_mouse)
 
 }
-
-function playerCharacter(){
-	this.visible = true;
-	this.activeSprite = CreateGenericSprite()
-	this.spriteManager = new GenericManager()
-	this.spriteManager.addToRoster(this.activeSprite)
-	this.speed = 1
-
-}
-
-playerCharacter.prototype.move = function(direction, speed){
-
-	if (direction){
-		switch(direction){
-			case "north":
-				this.activeSprite.x += speed
-				break;
-			case "south":
-				this.activeSprite.x -= speed
-				break;
-			case "east":
-				this.activeSprite.y += speed
-				break;
-			case "west":
-				this.activeSprite.y -= speed
-				break;
-			default:
-				window.alert("direction required for moving playerCharacter ")
-				break;
-		}
-	}
-}	
-
-playerCharacter.prototype.mouseMove = function(mouseDeltaX, mouseDeltaY)
+playerController.prototype.update = function()
 {
-	if (mouseDeltaX && mouseDeltaY)
+	if(this.activePlayerCharacter.activeFrame >= this.activePlayerCharacter.activeAnimation.length)
 	{
-		this.activeSprite.x = mouseDeltaX
-		this.activeSprite.y = mouseDeltaY
+		this.activePlayerCharacter.activeFrame = 0;
 	}
-};
 
-playerCharacter.prototype.setActiveSprite = function(inputSprite)
-{
-	if(inputSprite)
-	{	
-		inputSprite.x = this.activeSprite.x
-		inputSprite.y = this.activeSprite.y
-
-
-		this.activeSprite = inputSprite
-	}
+	this.activePlayerCharacter.setActiveSprite(this.activePlayerCharacter.activeAnimation[this.activePlayerCharacter.activeFrame])
+	this.activePlayerCharacter.activeFrame++
 }
 
-playerCharacter.prototype.characterStates =
-{
-	battle:"battleState",
-	moving: "movingState",
-	idle: "idleState",
-	inactive: "inactiveState",
-	attacking: "attackingState",
-	underAttack: "underAttackState",
-	gameContol: "gameControlState"
-}
-
-playerCharacter.prototype.setState = function(pState)
-{
-	switch(pState)
-	{		
-		case this.characterStates.idle:
-
-
-	}
-}
-
-playerController.prototype.controlType = {
-	
-	mouse: "mouse",
-	keyboard: "keyboard",
-	gamepad: "gamepad",
-	mouseAndKeyboard: "mouseAndKeyboard"
-}
-
-playerController.prototype.setDeviceInput = function(deviceProfile, inputCharacter){
+playerController.prototype.setDeviceInput = function(deviceProfile){
 
 	var inputDevice = TurbulenzEngine.getInputDevice();
 	var mouseCodes = inputDevice.mouseCodes;
+
+	var currentPlayerCharacter = this.activePlayerCharacter
 
 	if (deviceProfile)
 	{
@@ -106,7 +38,7 @@ playerController.prototype.setDeviceInput = function(deviceProfile, inputCharact
 			default:
 				var onMouseOver = function onMouseOverFn(deltaX, deltaY)
 				{
-					inputCharacter.mouseMove(deltaX, deltaY)
+					currentPlayerCharacter.mouseMove(deltaX, deltaY)
 				}
 
 				var onMouseEnter = function onMouseEnterFn()
@@ -123,12 +55,12 @@ playerController.prototype.setDeviceInput = function(deviceProfile, inputCharact
 				{
 					if (mouseCode === mouseCodes.BUTTON_0)
 					{
-						inputCharacter.setActiveSprite(inputCharacter.spriteManager.roster[1])
+						//inputCharacter.setActiveSprite(inputCharacter.spriteManager.roster[1])
 						console.log("mouse clicked")
 					}
 					if (mouseCode === mouseCodes.BUTTON_1)
 					{
-						inputCharacter.setActiveSprite(inputCharacter.spriteManager.roster[2])
+						//inputCharacter.setActiveSprite(inputCharacter.spriteManager.roster[2])
 						console.log("mouse2 clicked")
 					}
 				}
@@ -137,12 +69,12 @@ playerController.prototype.setDeviceInput = function(deviceProfile, inputCharact
 				{
 					if (mouseCode === mouseCodes.BUTTON_0)
 					{
-						inputCharacter.setActiveSprite(inputCharacter.spriteManager.roster[0])
+						//inputCharacter.setActiveSprite(inputCharacter.spriteManager.roster[0])
 						console.log("mouse unclicked")
 					}
 					if (mouseCode === mouseCodes.BUTTON_1)
 					{
-						inputCharacter.setActiveSprite(inputCharacter.spriteManager.roster[0])
+						//inputCharacter.setActiveSprite(inputCharacter.spriteManager.roster[0])
 						console.log("mouse2 unclicked")
 					}
 
@@ -172,4 +104,12 @@ playerController.prototype.createDeviceProfile = function(){
 	return newDeviceProfile;
 
 	
+}
+
+playerController.prototype.controlType = {
+	
+	mouse: "mouse",
+	keyboard: "keyboard",
+	gamepad: "gamepad",
+	mouseAndKeyboard: "mouseAndKeyboard"
 }
