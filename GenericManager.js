@@ -4,6 +4,7 @@ function GenericManager(){
 	this.id = 0;
 	this.roster = new Array()
 	this.drawToScene = true
+	this.addToRoster = function()
 	
 };
 

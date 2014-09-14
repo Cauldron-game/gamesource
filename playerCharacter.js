@@ -18,10 +18,6 @@ function playerCharacter(){
 
 	this.speed = 1
 
-	console.log(this.activeSprite)
-
-	//this.activeState = this.characterStates.idleState
-
 
 }
 
@@ -106,6 +102,11 @@ playerCharacter.prototype.addSpriteToAnimation = function(pSprite, pAnimationInd
 	}
 }
 
+playerCharacter.prototype.removeSpriteFromAnimation = function(pAnimationIndex, pAnimatnionFrame)
+{
+	var _animation = this.animationManager.getFromRoster(pAnimationIndex)
+	_animation.splice(pAnimatnionFrame, 1)
+}
 
 playerCharacter.prototype.characterStates =
 {
