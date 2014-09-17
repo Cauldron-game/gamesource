@@ -1,5 +1,4 @@
 function playerCharacter(){
-	this.visible = true;
 	this.activeFrame = 0;
 	this.activeSprite = null;
 

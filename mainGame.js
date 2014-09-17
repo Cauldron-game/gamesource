@@ -25,7 +25,11 @@ var mainGame = (function () {
 
 	var gameObjectManager = CreateGameObjectManager()
 
-	var playerControllerManager = gameObjectManager.getFromRoster(0)
+	console.log("gameObjectManager = ", gameObjectManager)
+
+	var playerControllerManager = gameObjectManager.getFromRoster("playerControllerManager")
+
+	console.log("playerControllerManager =", playerControllerManager)
 	
 	var newPlayerController = new playerController()
 
@@ -42,27 +46,8 @@ var mainGame = (function () {
 	var defaultAnimation = newPlayerController.activePlayerCharacter.defaultAnimation
 
 	newPlayerController.activePlayerCharacter.addSpriteToAnimation(redSquareSprite,0)
-	newPlayerController.activePlayerCharacter.addSpriteToAnimation(redSquareSprite,0)
-	newPlayerController.activePlayerCharacter.addSpriteToAnimation(redSquareSprite,0)
-	newPlayerController.activePlayerCharacter.addSpriteToAnimation(redSquareSprite,0)
-	newPlayerController.activePlayerCharacter.addSpriteToAnimation(redSquareSprite,0)
-	newPlayerController.activePlayerCharacter.addSpriteToAnimation(tealSquareSprite,0)
-	newPlayerController.activePlayerCharacter.addSpriteToAnimation(tealSquareSprite,0)
-	newPlayerController.activePlayerCharacter.addSpriteToAnimation(tealSquareSprite,0)
-	newPlayerController.activePlayerCharacter.addSpriteToAnimation(tealSquareSprite,0)
 	newPlayerController.activePlayerCharacter.addSpriteToAnimation(tealSquareSprite,0)
 
-
-
-	//newPlayerController.activePlayerCharacter.animationManager.roster
-
-	//redSquareSprite.id = newPlayerController.activePlayerCharacter.spriteManager.addToRoster(redSquareSprite)
-
-	//tealSquareSprite.id = newPlayerController.activePlayerCharacter.spriteManager.addToRoster(tealSquareSprite)
-
-
-	//console.log(gameObjectManager.roster)
-	
 
 	function drawSpriteBatch(spriteBatch)
 	{

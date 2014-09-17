@@ -3,8 +3,7 @@ function GenericManager(){
 	this.idCounter = 0;
 	this.id = 0;
 	this.roster = new Array()
-	this.drawToScene = true
-	this.addToRoster = function()
+	this.visible = false
 	
 };
 
@@ -44,3 +43,29 @@ GenericManager.prototype.replaceInRoster = function(originRosterEntry, replaceme
 	this.addToRoster(replacementEntry, originRosterEntryIndex)
 	this.roster[originRosterEntryIndex].id = originRosterEntryIndex
 };
+
+GenericManager.prototype.getVisibleObjects = function()
+{
+	if(this.visible == true)
+	{
+		var managerRoster = this.roster
+		var managerRosterLength = managerRoster.length
+		var visibleObjArray = new Array()
+		var visibleObjCount = 0
+
+		for (iObj = 0; iObj < managerRosterLength; iObj++)
+		{
+			var currentObj = managerRoster[iObj]
+			if(currentObj.visible && currentObj.visible == true)
+			{
+				visibleObjArray[visibleObjCount] = currentObj
+				visibleObjCount++
+			}
+		}
+
+	}
+	else
+	{
+		return false;
+	}
+}
